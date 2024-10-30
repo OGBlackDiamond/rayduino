@@ -10,6 +10,9 @@ struct Vector3 {
 
     Vector3();
     Vector3(float, float, float);
+    Vector3(const Vector3&);
+    Vector3& operator=(const Vector3&);
+    void deepCopy(float, float, float);
     void normalize();
 };
 
