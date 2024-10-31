@@ -13,6 +13,7 @@ public:
     Shape(float, float, float, int, int, int);
     Shape(Vector3&, Color&);
     Shape(const Shape&);
+    ~Shape();
 
     void setColor(Color);
     void setPosition(Vector3);
@@ -21,7 +22,7 @@ public:
     Vector3& getPosition();
     
     // each shape should override this
-    virtual bool checkCollision(Ray*) = 0;
+    bool checkCollision(Ray*);
 
 protected:
 
