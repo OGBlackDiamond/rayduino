@@ -5,6 +5,8 @@ Renderer::Renderer() {
     numShapes = 0;
     maxShapes = 1;
     shapes = nullptr;
+
+    display = Display();
 }
 
 Renderer::Renderer(int length, int width) {
@@ -13,6 +15,8 @@ Renderer::Renderer(int length, int width) {
     numShapes = 0;
     maxShapes = 1;
     shapes = nullptr;
+
+    display = Display(length, width);
 };
 
 Renderer::~Renderer() {
@@ -33,4 +37,23 @@ void Renderer::addShape(Shape& shape) {
     numShapes++;
 }
 
+void Renderer::castRays() {
+    for (int i = 0; i < projectionPlane.x * 2; i++) {
+        for (int j = 0; j < projectionPlane.y * 2; j++) {
+            // initializes a new ray
+            Ray ray = Ray(
+                0, 0, 0, 
+                i - projectionPlane.x, 
+                j - projectionPlane.y,
+                projectionPlane.z
+            );
 
+            for (int k = 0; k < numShapes; k++) {
+                if (shapes[k].checkCollision(&ray)) {
+                    display.setPixel(i, j, shapes[k].getColor());
+                    break;
+                }
+            }
+        }
+    }
+}

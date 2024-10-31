@@ -3,6 +3,7 @@
 
 #include "vector.h"
 #include "shape.h"
+#include "display.h"
 
 class Renderer {
 public:
@@ -10,13 +11,18 @@ public:
     Renderer(int, int);
     ~Renderer();
 
+    Display display;
+
     void addShape(Shape&);
+
+    void castRays();
 
 private:
 
     float depth = 10;
     
     Vector3 projectionPlane;
+
 
     int numShapes;
     int maxShapes;
