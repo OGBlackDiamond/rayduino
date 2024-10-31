@@ -15,6 +15,10 @@ Renderer::Renderer(int length, int width) {
     shapes = nullptr;
 };
 
+Renderer::~Renderer() {
+    delete[] shapes;
+}
+
 void Renderer::addShape(Shape& shape) {
     if (numShapes == maxShapes) {
         maxShapes *= 2;
@@ -28,3 +32,5 @@ void Renderer::addShape(Shape& shape) {
     shapes[numShapes] = shape;
     numShapes++;
 }
+
+

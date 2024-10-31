@@ -8,6 +8,7 @@ class Renderer {
 public:
     Renderer();
     Renderer(int, int);
+    ~Renderer();
 
     void addShape(Shape&);
 

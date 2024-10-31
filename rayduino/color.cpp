@@ -1,9 +1,9 @@
 #include "color.h"
 
 Color::Color() {
-    r = 0;
-    g = 0;
-    b = 0;
+    r = 30;
+    g = 30;
+    b = 30;
 }
 
 Color::Color(const Color& rhs) {
