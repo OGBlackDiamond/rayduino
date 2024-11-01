@@ -10,7 +10,6 @@ Renderer::Renderer() {
 }
 
 Renderer::Renderer(int length, int width) {
-  Serial.println("constructing deez");
     // initializes the projection plane to be in the center of the width and height
     projectionPlane = Vector3(length / 2.0, width / 2.0, depth);
     numShapes = 0;
@@ -40,26 +39,27 @@ void Renderer::addShape(Sphere shape) {
 }
 
 void Renderer::castRays() {
-    for (int i = 0; i < projectionPlane.x * 2; i++) {
-        for (int j = 0; j < projectionPlane.y * 2; j++) {
+    for (int i = 0; i < projectionPlane.y * 2; i++) {
+        for (int j = 0; j < projectionPlane.x * 2; j++) {
             // initializes a new ray
             Ray ray = Ray(
                 0, 0, 0, 
-                i - projectionPlane.x, 
-                j - projectionPlane.y,
+                j - projectionPlane.x, 
+                i - projectionPlane.y,
                 projectionPlane.z
             );
-            Serial.print("Casting Ray: ");
-            Serial.print(i);
-            Serial.print(", ");
-            Serial.println(j);
+
+            bool hit = false;
 
             for (int k = 0; k < numShapes; k++) {
                 if (shapes[k].checkCollision(ray)) {
-                    display->setPixel(i, j, shapes[k].getColor());
+                    //Serial.println("HIT!");
+                    display->sendColor(Color(10, 10, 10));
+                    hit = true;
                     break;
                 }
             }
+            if (!hit) {display->sendColor(Color(0, 0, 0));}
         }
     }
 }

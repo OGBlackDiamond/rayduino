@@ -14,6 +14,8 @@ public:
 
     void renderDisplay();
 
+    void sendColor(Color);
+
 private:
     int resX;
     int resY;
@@ -30,7 +32,7 @@ private:
     void sendCommand(uint8_t);
 
     void initializeDisplay();
-    void generateBuffer();
+    void generateBuffer(int, int);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "sphere.h"
 
 Sphere::Sphere(): Shape(){
-    radius = 1;
+    radius = 5;
 }
 
 Sphere::Sphere(float x, float y, float z, int r, int g, int b, float rad)
@@ -31,7 +31,7 @@ bool Sphere::checkCollision(Ray ray) {
 
 
     float a = dx*dx + dy*dy + dz*dz;
-    float b = 2*dx*(rayPos.x - position.x) + 2*dz*(rayPos.z - position.z);
+    float b = 2*dx*(rayPos.x - position.x) + 2*dy*(rayPos.y - position.y) + 2*dz*(rayPos.z - position.z);
     float c = position.x*position.x + position.y*position.y + position.z*position.z
         + rayPos.x*rayPos.x + rayPos.y*rayPos.y + rayPos.z*rayPos.z + 
         (-2*(position.x*rayPos.x + position.y * rayPos.y + position.z*rayPos.z) - radius * radius);

@@ -4,14 +4,14 @@ Display::Display() {
     resX = 96;
     resY = 64;
     initializeDisplay();
-    generateBuffer();
+    generateBuffer(96, 64);
 }
 
 Display::Display(int x, int y) {
     resX = x;
     resY = y;
+
     initializeDisplay();
-    generateBuffer();
 }
 
 Display::~Display() {
@@ -27,6 +27,7 @@ void Display::initializeDisplay() {
     pinMode(reset, OUTPUT);
     pinMode(command, OUTPUT);
     pinMode(cs, OUTPUT);
+
 
     digitalWrite(reset, LOW);
     delay(50);
@@ -91,12 +92,8 @@ void Display::initializeDisplay() {
     sendCommand(0xAF); // Display on
 }
 
-void Display::generateBuffer() {
-  buffer = new Color *[resY];
-
-  for (int i = 0; i < resY; i++) {
-    buffer[i] = new Color[resX];
-  }
+void Display::generateBuffer(int x, int y) {
+  
 }
 
 void Display::sendData(uint8_t din) {
@@ -115,6 +112,12 @@ void Display::sendCommand(uint8_t command) {
     digitalWrite(clock, LOW);
     shiftOut(data, clock, MSBFIRST, command);
     digitalWrite(cs, HIGH);
+}
+
+void Display::sendColor(Color color) {
+    uint16_t pixelColor = color.asBytes();
+    sendData((uint8_t) pixelColor);
+    sendData((uint8_t) pixelColor << 8);
 }
 
 void Display::setPixel(int x, int y, Color color) {
