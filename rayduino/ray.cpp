@@ -30,4 +30,5 @@ Vector3 Ray::getDirection() {return direction;}
 
 void Ray::normalize() {
     direction.normalize();
+    position.normalize();
 }

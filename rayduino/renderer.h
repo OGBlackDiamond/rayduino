@@ -13,13 +13,13 @@ public:
 
     Display* display;
 
-    void addShape(Sphere);
+    void addShape(Sphere&);
 
     void castRays();
 
 private:
 
-    float depth = 10;
+    float const depth = 60;
     
     Vector3 projectionPlane;
 

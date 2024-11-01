@@ -20,23 +20,23 @@ Sphere::Sphere(const Sphere& rhs)
 }
 
 bool Sphere::checkCollision(Ray ray) {
-    ray.normalize();
+    //ray.normalize();
 
     Vector3 rayPos = ray.getPosition();
-    Vector3 rayDir = ray.getPosition();
+    Vector3 rayDir = ray.getDirection();
 
-    float dx = rayDir.x - rayPos.x;
-    float dy = rayDir.y - rayPos.y;
-    float dz = rayDir.z - rayPos.z;
+    float dx = position.x - rayPos.x;
+    float dy = position.y - rayPos.y;
+    float dz = position.z - rayPos.z;
 
+    Vector3 d(dx, dy, dz);
 
-    float a = dx*dx + dy*dy + dz*dz;
-    float b = 2*dx*(rayPos.x - position.x) + 2*dy*(rayPos.y - position.y) + 2*dz*(rayPos.z - position.z);
-    float c = position.x*position.x + position.y*position.y + position.z*position.z
-        + rayPos.x*rayPos.x + rayPos.y*rayPos.y + rayPos.z*rayPos.z + 
-        (-2*(position.x*rayPos.x + position.y * rayPos.y + position.z*rayPos.z) - radius * radius);
+    float a = Util::dot(rayDir, rayDir);
+    float b = -2.0 * Util::dot(d, rayDir);
+    float c = Util::dot(d, d) - radius * radius;
+    
+    float dis = b * b - 4*  a * c;
 
-    float discriminant = b * b - 4 * a * c;
+    return dis >= 0;
 
-    return discriminant >= 0;
 }

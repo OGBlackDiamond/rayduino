@@ -8,9 +8,9 @@ void setup() {
   Renderer renderer(96, 64);
   Serial.println("construction finished");
   // put your setup code here, to run once:
-  renderer.addShape(Sphere(0, 0, 10, 20, 20, 20, 10));
+  //renderer.addShape(Sphere(0.0, 0.0, 1.0, 20, 20, 20, 1.0));
+  delay(1000);
   renderer.castRays();
-  renderer.display->renderDisplay();
 }
 
 void loop() {

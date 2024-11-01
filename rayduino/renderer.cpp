@@ -24,7 +24,7 @@ Renderer::~Renderer() {
     delete display;
 }
 
-void Renderer::addShape(Sphere shape) {
+void Renderer::addShape(Sphere& shape) {
     if (numShapes == maxShapes) {
         maxShapes *= 2;
         Sphere* tmp = new Sphere[maxShapes];
@@ -46,20 +46,23 @@ void Renderer::castRays() {
                 0, 0, 0, 
                 j - projectionPlane.x, 
                 i - projectionPlane.y,
-                projectionPlane.z
+                projectionPlane.z 
             );
 
-            bool hit = false;
+            Sphere* sphere = new Sphere(
+                0, 0, -1, 20, 20 ,20, .4
 
-            for (int k = 0; k < numShapes; k++) {
-                if (shapes[k].checkCollision(ray)) {
+            );
+
+
+            //for (int k = 0; k < numShapes; k++) {
+                if (sphere->checkCollision(ray)) {
                     //Serial.println("HIT!");
                     display->sendColor(Color(10, 10, 10));
-                    hit = true;
-                    break;
                 }
-            }
-            if (!hit) {display->sendColor(Color(0, 0, 0));}
+            //}
+                else{display->sendColor(Color(0, 0, 0));}
+            delete sphere;
         }
     }
 }
