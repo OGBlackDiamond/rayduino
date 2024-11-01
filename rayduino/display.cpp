@@ -109,6 +109,14 @@ void Display::sendData(uint8_t din) {
     digitalWrite(cs, HIGH);
 }
 
+void Display::sendCommand(uint8_t command) {
+    digitalWrite(command, LOW);
+    digitalWrite(cs, LOW);
+    digitalWrite(clock, LOW);
+    shiftOut(data, clock, MSBFIRST, command);
+    digitalWrite(cs, HIGH);
+}
+
 void Display::setPixel(int x, int y, Color color) {
     buffer[y][x] = color;
 }
@@ -116,7 +124,7 @@ void Display::setPixel(int x, int y, Color color) {
 void Display::renderDisplay() {
     for (int i = 0; i < resY; i++) {
         for (int j = 0; j < resX; j++) {
-            Color pixelColor = buffer[i][j].asBytes();
+            uint16_t pixelColor = buffer[i][j].asBytes();
             sendData((uint8_t) pixelColor);
             sendData((uint8_t) pixelColor << 8);
         }

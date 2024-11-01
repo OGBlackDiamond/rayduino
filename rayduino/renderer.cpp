@@ -6,27 +6,29 @@ Renderer::Renderer() {
     maxShapes = 1;
     shapes = nullptr;
 
-    display = Display();
+    display = new Display();
 }
 
 Renderer::Renderer(int length, int width) {
+  Serial.println("constructing deez");
     // initializes the projection plane to be in the center of the width and height
     projectionPlane = Vector3(length / 2.0, width / 2.0, depth);
     numShapes = 0;
     maxShapes = 1;
     shapes = nullptr;
 
-    display = Display(length, width);
+    display = new Display(length, width);
 };
 
 Renderer::~Renderer() {
     delete[] shapes;
+    delete display;
 }
 
-void Renderer::addShape(Shape& shape) {
+void Renderer::addShape(Sphere shape) {
     if (numShapes == maxShapes) {
         maxShapes *= 2;
-        Shape* tmp = new Shape[maxShapes];
+        Sphere* tmp = new Sphere[maxShapes];
         for (int i = 0; i < numShapes; i++) {
             tmp[i] = shapes[i];
         }
@@ -47,10 +49,14 @@ void Renderer::castRays() {
                 j - projectionPlane.y,
                 projectionPlane.z
             );
+            Serial.print("Casting Ray: ");
+            Serial.print(i);
+            Serial.print(", ");
+            Serial.println(j);
 
             for (int k = 0; k < numShapes; k++) {
-                if (shapes[k].checkCollision(&ray)) {
-                    display.setPixel(i, j, shapes[k].getColor());
+                if (shapes[k].checkCollision(ray)) {
+                    display->setPixel(i, j, shapes[k].getColor());
                     break;
                 }
             }

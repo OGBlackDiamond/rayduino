@@ -4,7 +4,7 @@
 #include "shape.h"
 #include "ray.h"
 
-class Sphere: Shape {
+class Sphere: public Shape {
 private:
     float radius;
 
@@ -14,6 +14,6 @@ public:
     Sphere(Vector3&, Color&, float);
     Sphere(const Sphere&);
 
-    bool checkCollision(Ray&);
+    bool checkCollision(Ray);
 };
 #endif

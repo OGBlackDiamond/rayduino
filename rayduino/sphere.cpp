@@ -19,7 +19,7 @@ Sphere::Sphere(const Sphere& rhs)
     radius = rhs.radius;
 }
 
-bool Sphere::checkCollision(Ray& ray) {
+bool Sphere::checkCollision(Ray ray) {
     ray.normalize();
 
     Vector3 rayPos = ray.getPosition();

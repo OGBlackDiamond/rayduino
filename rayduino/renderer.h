@@ -2,7 +2,7 @@
 #define RENDERER_H
 
 #include "vector.h"
-#include "shape.h"
+#include "sphere.h"
 #include "display.h"
 
 class Renderer {
@@ -11,9 +11,9 @@ public:
     Renderer(int, int);
     ~Renderer();
 
-    Display display;
+    Display* display;
 
-    void addShape(Shape&);
+    void addShape(Sphere);
 
     void castRays();
 
@@ -26,7 +26,7 @@ private:
 
     int numShapes;
     int maxShapes;
-    Shape* shapes;
+    Sphere* shapes;
 
 };
 

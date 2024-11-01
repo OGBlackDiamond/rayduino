@@ -25,6 +25,9 @@ Ray& Ray::operator=(const Ray& rhs) {
     direction = rhs.direction;
 }
 
+Vector3 Ray::getPosition() {return position;}
+Vector3 Ray::getDirection() {return direction;}
+
 void Ray::normalize() {
     direction.normalize();
 }

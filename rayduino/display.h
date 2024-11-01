@@ -25,11 +25,12 @@ private:
     const uint8_t cs = 10;
 
     Color** buffer;
+    
+    void sendData(uint8_t);
+    void sendCommand(uint8_t);
 
     void initializeDisplay();
     void generateBuffer();
-
-    void sendData(uint8_t);
 };
 
 #endif
