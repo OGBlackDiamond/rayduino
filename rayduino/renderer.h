@@ -19,7 +19,7 @@ public:
 
 private:
 
-    float const depth = 60;
+    float const depth = 10;
     
     Vector3 projectionPlane;
 

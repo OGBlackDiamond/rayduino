@@ -42,27 +42,27 @@ void Renderer::castRays() {
     for (int i = 0; i < projectionPlane.y * 2; i++) {
         for (int j = 0; j < projectionPlane.x * 2; j++) {
             // initializes a new ray
-            Ray ray = Ray(
-                0, 0, 0, 
+            Ray* ray = new Ray(
+                0, 0, -100, 
                 j - projectionPlane.x, 
                 i - projectionPlane.y,
-                projectionPlane.z 
+                projectionPlane.z
             );
 
             Sphere* sphere = new Sphere(
-                0, 0, -1, 20, 20 ,20, .4
-
+                0, 0, 0, 20, 20 ,20, 0.9 
             );
 
 
             //for (int k = 0; k < numShapes; k++) {
-                if (sphere->checkCollision(ray)) {
+                if (sphere->checkCollision(*ray)) {
                     //Serial.println("HIT!");
-                    display->sendColor(Color(10, 10, 10));
+                    display->sendColor(Color(20, 20, 20));
                 }
             //}
                 else{display->sendColor(Color(0, 0, 0));}
             delete sphere;
+            delete ray;
         }
     }
 }
