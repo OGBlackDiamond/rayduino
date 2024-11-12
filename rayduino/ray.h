@@ -18,6 +18,8 @@ public:
     Vector3 getPosition();
     Vector3 getDirection();
 
+    Vector3 at(double);
+
     void normalize();
     
 private:

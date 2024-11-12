@@ -26,9 +26,9 @@ bool Sphere::checkCollision(Ray ray) {
     Vector3 rayPos = ray.getPosition();
     Vector3 rayDir = ray.getDirection();
 
-    float dx = rayPos.x - position.x;
-    float dz = rayPos.z - position.y;
-    float dy = rayPos.y - position.z;
+    float dx = rayPos.x() - position.x();
+    float dz = rayPos.z() - position.y();
+    float dy = rayPos.y() - position.z();
 
     Vector3 d(dx, dy, dz);
 

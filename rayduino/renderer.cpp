@@ -16,6 +16,19 @@ Renderer::Renderer(int length, int width) {
     maxShapes = 1;
     shapes = nullptr;
 
+    viewPortWidth = viewPortHeight  * (float(width) / length);
+
+    viewPortU = Vector3(viewPortWidth, 0, 0);
+    viewPortV = Vector3(0, -viewPortHeight, 0);
+
+    pixelDeltaU = viewPortU / length;
+    pixelDeltaV = viewPortV / width;
+
+    viewPortUpperLeft = Vector3(0, 0, 0)
+                        - Vector3(0, 0, depth) - viewPortU/2 - viewPortV/2;
+
+    pixel00Loc = viewPortUpperLeft + 0.5 * (pixelDeltaU + pixelDeltaV);
+
     display = new Display(length, width);
 };
 
@@ -39,14 +52,17 @@ void Renderer::addShape(Sphere& shape) {
 }
 
 void Renderer::castRays() {
-    for (int i = 0; i < projectionPlane.y * 2; i++) {
-        for (int j = 0; j < projectionPlane.x * 2; j++) {
+    for (int i = 0; i < projectionPlane.y() * 2; i++) {
+        for (int j = 0; j < projectionPlane.x() * 2; j++) {
+
+            Vector3 cameraCenter = Vector3(0, 0, 0);
+            Vector3 pixelCenter = pixel00Loc + (j * pixelDeltaU) + (i * pixelDeltaV);
+            Vector3 rayDirection = pixelCenter - cameraCenter;
+
             // initializes a new ray
             Ray* ray = new Ray(
-                0, 0, -100, 
-                j - projectionPlane.x, 
-                i - projectionPlane.y,
-                projectionPlane.z
+                cameraCenter,
+                rayDirection
             );
 
             Sphere* sphere = new Sphere(

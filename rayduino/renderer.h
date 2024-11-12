@@ -16,13 +16,25 @@ public:
     void addShape(Sphere&);
 
     void castRays();
-
 private:
 
-    float const depth = 10;
+    float const depth = 1.0;
     
     Vector3 projectionPlane;
 
+    const float aspectRatio = 3.0 / 2.0;
+    const float viewPortHeight = 2.0;
+    float viewPortWidth;
+
+    Vector3 viewPortU;
+    Vector3 viewPortV;
+
+    Vector3 pixelDeltaU;
+    Vector3 pixelDeltaV;
+
+    Vector3 viewPortUpperLeft;
+
+    Vector3 pixel00Loc;
 
     int numShapes;
     int maxShapes;

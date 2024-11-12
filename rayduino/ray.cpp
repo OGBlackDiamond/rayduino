@@ -28,6 +28,10 @@ Ray& Ray::operator=(const Ray& rhs) {
 Vector3 Ray::getPosition() {return position;}
 Vector3 Ray::getDirection() {return direction;}
 
+Vector3 Ray::at(double t) {
+    return position + t*direction;
+}
+
 void Ray::normalize() {
     direction.normalize();
     position.normalize();
