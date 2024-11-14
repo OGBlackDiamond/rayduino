@@ -20,7 +20,7 @@ Color& Color::operator=(const Color& color) {
 }
 
 uint16_t Color::asBytes() {
-    return (r << 11) | (g << 5) | b;
+    return ((r << 11) | (g << 5) | b);
 }
 
 void Color::deepCopy(int r, int g, int b) {

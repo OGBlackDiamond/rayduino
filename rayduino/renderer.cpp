@@ -11,7 +11,8 @@ Renderer::Renderer() {
 
 Renderer::Renderer(int length, int width) {
     // initializes the projection plane to be in the center of the width and height
-    projectionPlane = Vector3(length / 2.0, width / 2.0, depth);
+    projectionPlane = Vector3(length, width, depth);
+    cameraCenter = Vector3(0, 0, 0);
     numShapes = 0;
     maxShapes = 1;
     shapes = nullptr;
@@ -24,8 +25,8 @@ Renderer::Renderer(int length, int width) {
     pixelDeltaU = viewPortU / double(width);
     pixelDeltaV = viewPortV / double(length);
 
-    viewPortUpperLeft = Vector3(0, 0, 0)
-                        - Vector3(0, 0, depth) - viewPortU/2 - viewPortV/2;
+    viewPortUpperLeft = cameraCenter - Vector3(0, 0, depth) - viewPortU/2 - viewPortV/2;
+    Serial.println(viewPortWidth);
 
     pixel00Loc = viewPortUpperLeft + 0.5 * (pixelDeltaU + pixelDeltaV);
 
@@ -52,10 +53,9 @@ void Renderer::addShape(Sphere& shape) {
 }
 
 void Renderer::castRays() {
-    for (int i = 0; i < projectionPlane.y() * 2; i++) {
-        for (int j = 0; j < projectionPlane.x() * 2; j++) {
+    for (int i = 0; i < projectionPlane.y(); i++) {
+        for (int j = 0; j < projectionPlane.x(); j++) {
 
-            Vector3 cameraCenter = Vector3(0, 0, 0);
             Vector3 pixelCenter = pixel00Loc + (j * pixelDeltaU) + (i * pixelDeltaV);
             Vector3 rayDirection = pixelCenter - cameraCenter;
 
@@ -66,14 +66,14 @@ void Renderer::castRays() {
             );
 
             Sphere* sphere = new Sphere(
-                0, 0, 5, 20, 20 ,20, 1
+                1, 1, -5, 18, 60 ,18, 1
             );
 
 
             //for (int k = 0; k < numShapes; k++) {
                 if (sphere->checkCollision(*ray)) {
                     //Serial.println("HIT!");
-                    display->sendColor(Color(20, 20, 20));
+                    display->sendColor(Color(sphere->getColor()));
                 }
             //}
                 else{display->sendColor(Color(0, 0, 0));}

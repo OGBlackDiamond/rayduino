@@ -22,6 +22,8 @@ private:
     
     Vector3 projectionPlane;
 
+    Vector3 cameraCenter;
+
     const float aspectRatio = 3.0 / 2.0;
     const float viewPortHeight = 2.0;
     float viewPortWidth;
