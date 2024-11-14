@@ -21,8 +21,8 @@ Renderer::Renderer(int length, int width) {
     viewPortU = Vector3(viewPortWidth, 0, 0);
     viewPortV = Vector3(0, -viewPortHeight, 0);
 
-    pixelDeltaU = viewPortU / length;
-    pixelDeltaV = viewPortV / width;
+    pixelDeltaU = viewPortU / double(width);
+    pixelDeltaV = viewPortV / double(length);
 
     viewPortUpperLeft = Vector3(0, 0, 0)
                         - Vector3(0, 0, depth) - viewPortU/2 - viewPortV/2;
@@ -66,7 +66,7 @@ void Renderer::castRays() {
             );
 
             Sphere* sphere = new Sphere(
-                0, 0, 0, 20, 20 ,20, 0.9 
+                0, 0, 5, 20, 20 ,20, 1
             );
 
 

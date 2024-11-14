@@ -21,20 +21,14 @@ Sphere::Sphere(const Sphere& rhs)
 
 bool Sphere::checkCollision(Ray ray) {
     //ray.normalize();
-    Serial.println(ray.getDirection().y);
 
-    Vector3 rayPos = ray.getPosition();
+    Vector3 oc = position - ray.getPosition();
+
     Vector3 rayDir = ray.getDirection();
 
-    float dx = rayPos.x() - position.x();
-    float dz = rayPos.z() - position.y();
-    float dy = rayPos.y() - position.z();
-
-    Vector3 d(dx, dy, dz);
-
-    float a = Util::dot(rayDir, rayDir);
-    float b = 2.0 * Util::dot(d, rayDir);
-    float c = Util::dot(d, d) - radius * radius;
+    float a = dot(rayDir, rayDir);
+    float b = -2.0 * dot(oc, rayDir);
+    float c = dot(oc, oc) - radius * radius;
     
     float dis = b * b - 4*  a * c;
 

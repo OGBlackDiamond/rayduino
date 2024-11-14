@@ -18,16 +18,6 @@ public:
     double operator[](int) const;
     double& operator[](int);
 
-    inline friend Vector3 operator+(const Vector3&, const Vector3&);
-    inline friend Vector3 operator-(const Vector3&, const Vector3&);
-    inline friend Vector3 operator*(const Vector3&, const Vector3&);
-    inline friend Vector3 operator*(const Vector3&, double);
-    inline friend Vector3 operator*(double, const Vector3&);
-    inline friend Vector3 operator/(const Vector3&, double);
-
-    inline friend double dot(const Vector3&, const Vector3&);
-    inline friend Vector3 cross(const Vector3&, const Vector3&);
-
     Vector3& operator+=(const Vector3&);
 
     Vector3& operator*=(double);
@@ -40,5 +30,45 @@ public:
 
     void normalize();
 };
+
+inline Vector3 operator+(const Vector3& u, const Vector3& v) {
+    return Vector3(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
+}
+
+inline Vector3 operator-(const Vector3& u, const Vector3& v) {
+    return Vector3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
+}
+
+inline Vector3 operator*(const Vector3& u, const Vector3& v) {
+    return Vector3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
+}
+
+inline Vector3 operator*(double t, const Vector3& v) {
+    return Vector3(t*v.e[0], t*v.e[1], t*v.e[2]);
+}
+
+inline Vector3 operator*(const Vector3& v, double t) {
+    return t * v;
+}
+
+inline Vector3 operator/(const Vector3& v, double t) {
+    return (1/t) * v;
+}
+
+inline double dot(const Vector3& u, const Vector3& v) {
+    return u.e[0] * v.e[0]
+         + u.e[1] * v.e[1]
+         + u.e[2] * v.e[2];
+}
+
+inline Vector3 cross(const Vector3& u, const Vector3& v) {
+    return Vector3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
+                u.e[2] * v.e[0] - u.e[0] * v.e[2],
+                u.e[0] * v.e[1] - u.e[1] * v.e[0]);
+}
+
+inline Vector3 unit_vector(const Vector3& v) {
+    return v / v.length();
+}
 
 #endif
