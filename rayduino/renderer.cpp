@@ -1,24 +1,14 @@
 #include "renderer.h"
 
-Renderer::Renderer() {
-    projectionPlane = Vector3(96, 64, depth); 
-    numShapes = 0;
-    maxShapes = 1;
-    shapes = nullptr;
-
-    display = new Display();
-}
-
 Renderer::Renderer(int length, int width) {
     // initializes the projection plane to be in the center of the width and height
     projectionPlane = Vector3(length, width, depth);
     cameraCenter = Vector3(0, 0, 0);
     numShapes = 0;
     maxShapes = 1;
-    shapes = nullptr;
+    spheres = new Sphere[maxShapes];
 
     viewPortWidth = viewPortHeight  * (float(width) / length);
-
     viewPortU = Vector3(viewPortWidth, 0, 0);
     viewPortV = Vector3(0, -viewPortHeight, 0);
 
@@ -26,7 +16,6 @@ Renderer::Renderer(int length, int width) {
     pixelDeltaV = viewPortV / double(length);
 
     viewPortUpperLeft = cameraCenter - Vector3(0, 0, depth) - viewPortU/2 - viewPortV/2;
-    Serial.println(viewPortWidth);
 
     pixel00Loc = viewPortUpperLeft + 0.5 * (pixelDeltaU + pixelDeltaV);
 
@@ -34,21 +23,21 @@ Renderer::Renderer(int length, int width) {
 };
 
 Renderer::~Renderer() {
-    delete[] shapes;
+    delete[] spheres;
     delete display;
 }
 
-void Renderer::addShape(Sphere& shape) {
+void Renderer::addSphere(Sphere shape) {
     if (numShapes == maxShapes) {
         maxShapes *= 2;
         Sphere* tmp = new Sphere[maxShapes];
         for (int i = 0; i < numShapes; i++) {
-            tmp[i] = shapes[i];
+            tmp[i] = spheres[i];
         }
-        shapes = tmp;
-        delete[] tmp;
+        delete[] spheres;
+        spheres = tmp;
     }
-    shapes[numShapes] = shape;
+    spheres[numShapes] = Sphere(shape);
     numShapes++;
 }
 
@@ -60,25 +49,21 @@ void Renderer::castRays() {
             Vector3 rayDirection = pixelCenter - cameraCenter;
 
             // initializes a new ray
-            Ray* ray = new Ray(
+            Ray ray(
                 cameraCenter,
                 rayDirection
             );
 
-            Sphere* sphere = new Sphere(
-                1, 1, -5, 18, 60 ,18, 1
-            );
+            for (int k = 0; k < numShapes; k++) {
+                double hit = spheres[k].checkCollision(ray);
 
-
-            //for (int k = 0; k < numShapes; k++) {
-                if (sphere->checkCollision(*ray)) {
-                    //Serial.println("HIT!");
-                    display->sendColor(Color(sphere->getColor()));
+                if (hit > 0.0) {
+                    Vector3 n(ray.at(hit) - Vector3(0, 0, -1)); n.normalize();
+                    display->sendColor(Color(n.x() + 1, n.y() + 1, n.z() + 1));
+                } else{
+                    display->sendColor(Color(0, 0, 0));
                 }
-            //}
-                else{display->sendColor(Color(0, 0, 0));}
-            delete sphere;
-            delete ray;
+            }
         }
     }
 }

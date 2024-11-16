@@ -10,7 +10,7 @@ Color::Color(const Color& rhs) {
     deepCopy(rhs.r, rhs.g, rhs.b);
 }
 
-Color::Color(int r, int b, int g) {
+Color::Color(float r, float g, float b) {
     deepCopy(r, g, b);
 }
 
@@ -20,13 +20,13 @@ Color& Color::operator=(const Color& color) {
 }
 
 uint16_t Color::asBytes() {
-    return ((r << 11) | (g << 5) | b);
+    return (((int)(r*31) << 11) | ((int)(g*63) << 5) | (int)(b*31));
 }
 
-void Color::deepCopy(int r, int g, int b) {
-    this->r = r;
-    this->g = g;
-    this->b = b;
+void Color::deepCopy(float r, float g, float b) {
+    this->r = r > 1 ? 1 : r;
+    this->g = g > 1 ? 1 : g;
+    this->b = b > 1 ? 1 : b;
 }
 
 

@@ -19,19 +19,24 @@ Sphere::Sphere(const Sphere& rhs)
     radius = rhs.radius;
 }
 
-bool Sphere::checkCollision(Ray ray) {
-    //ray.normalize();
+HitInfo Sphere::checkCollision(Ray ray) {
+    ray.normalize();
 
     Vector3 oc = position - ray.getPosition();
-
     Vector3 rayDir = ray.getDirection();
 
-    float a = dot(rayDir, rayDir);
-    float b = -2.0 * dot(oc, rayDir);
-    float c = dot(oc, oc) - radius * radius;
+    float a = rayDir.length_squared();
+    float b = dot(oc, rayDir);
+    float c = oc.length_squared() - radius * radius;
     
-    float dis = b * b - 4*  a * c;
+    float dis = b * b - a * c;
 
-    return dis >= 0;
+    HitInfo thisHit;
 
+    if (dis < 0) {
+        thisHit.didHit = false;
+    } else {
+        return (b - sqrt(dis)) / a;
+    }
+    return thisHit;
 }

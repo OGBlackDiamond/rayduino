@@ -116,8 +116,8 @@ void Display::sendCommand(uint8_t command) {
 
 void Display::sendColor(Color color) {
     uint16_t pixelColor = color.asBytes();
+    sendData(pixelColor >> 8);
     sendData((uint8_t) pixelColor);
-    sendData((uint8_t) pixelColor << 8);
 }
 
 void Display::setPixel(int x, int y, Color color) {

@@ -16,6 +16,6 @@ public:
     Sphere(Vector3&, Color&, float);
     Sphere(const Sphere&);
 
-    bool checkCollision(Ray);
+    HitInfo checkCollision(Ray);
 };
 #endif

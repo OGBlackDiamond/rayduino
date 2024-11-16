@@ -13,10 +13,12 @@ public:
 
     Display* display;
 
-    void addShape(Sphere&);
+    void addSphere(Sphere);
 
     void castRays();
 private:
+
+    Sphere* spheres;
 
     float const depth = 1.0;
     
@@ -40,8 +42,6 @@ private:
 
     int numShapes;
     int maxShapes;
-    Sphere* shapes;
 
 };
-
 #endif

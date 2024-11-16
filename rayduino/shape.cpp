@@ -20,8 +20,6 @@ Shape::Shape(const Shape& rhs) {
     position = rhs.position;
 }
 
-Shape::~Shape() {}
-
 void Shape::setColor(Color color) {this->color = color;}
 void Shape::setPosition(Vector3 position) {this->position = position;}
 

@@ -4,16 +4,16 @@
 #include "Arduino.h"
 
 struct Color {
-    int r;
-    int g;
-    int b;
+    float r;
+    float g;
+    float b;
     Color();
-    Color(int, int, int);
+    Color(float, float, float);
     Color(const Color&);
     Color& operator=(const Color&);
     uint16_t asBytes();
 private:
-    void deepCopy(int, int, int);
+    void deepCopy(float, float, float);
 };
 
 #endif
