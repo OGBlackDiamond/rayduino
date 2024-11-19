@@ -1,11 +1,16 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include "Arduino.h"
 #include "vector.h"
 
 class Util {
 public:
-    static float dot(Vector3, Vector3);
+    static float randomValue(uint32_t);
+    static float randomNormalValue(int);
+    static Vector3 randomDirection(int);
+
+    static int sign(float);
 };
 
 #endif

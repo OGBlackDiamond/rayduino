@@ -54,16 +54,25 @@ void Renderer::castRays() {
                 rayDirection
             );
 
+            bool didHitAny = false;
+
             for (int k = 0; k < numShapes; k++) {
                 HitInfo hit = spheres[k].checkCollision(ray);
 
                 if (hit.didHit) {
-                    Vector3 n(ray.at(hit.distance) - Vector3(0, 0, -1)); n.normalize();
-                    display->sendColor(Color(n.x() + 1, n.y() + 1, n.z() + 1));
-                } else{
-                    display->sendColor(Color(0, 0, 0));
+                    didHitAny = hit.didHit;
+
+                    Vector3 randDir = Util::randomDirection(j * projectionPlane.x() + i);
+                    if (dot(randDir, hit.normal) < 0.0) randDir * Util::sign(dot(randDir, hit.normal));
+
+                    Ray bounceRay(hit.hitPoint, randDir);
+
+                    if (spheres[2].checkCollision(bounceRay).didHit) display->sendColor(spheres[k].getColor());
+                    else didHitAny = false;
+                    break;
                 }
             }
+            if (!didHitAny) display->sendColor(Color(0, 0, 0));
         }
     }
 }

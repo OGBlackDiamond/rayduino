@@ -5,7 +5,7 @@ Shape::Shape() {
     color = Color();
 }
 
-Shape::Shape(float x, float y, float z, int r, int g, int b) {
+Shape::Shape(float x, float y, float z, float r, float g, float b) {
     position = Vector3(x, y, z);
     color = Color(r, g, b);
 }

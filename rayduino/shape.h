@@ -10,7 +10,7 @@
 class Shape {
 public:
     Shape();
-    Shape(float, float, float, int, int, int);
+    Shape(float, float, float, float, float, float);
     Shape(Vector3&, Color&);
     Shape(const Shape&);
 
@@ -28,7 +28,7 @@ protected:
     Vector3 position;
     Color color;
 
-    void deepCopy(float, float, float, int, int, int);
+    void deepCopy(float, float, float, float, float, float);
 
 };
 

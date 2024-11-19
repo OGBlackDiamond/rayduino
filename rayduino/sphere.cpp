@@ -4,12 +4,12 @@ Sphere::Sphere(): Shape(){
     radius = 5;
 }
 
-Sphere::Sphere(float x, float y, float z, int r, int g, int b, float rad)
+Sphere::Sphere(float x, float y, float z, float r, float g, float b, float rad)
     : Shape(x, y, z, r, g, b) {
     radius = rad;
 }
 
-Sphere::Sphere(Vector3& position, Color& color, float rad)
+Sphere::Sphere(Vector3 position, Color color, float rad)
     : Shape(position, color) {
     radius = rad;
 }

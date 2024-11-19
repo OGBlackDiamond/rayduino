@@ -4,6 +4,7 @@
 #include "vector.h"
 #include "sphere.h"
 #include "display.h"
+#include "util.h"
 
 class Renderer {
 public:
@@ -20,13 +21,13 @@ private:
 
     Sphere* spheres;
 
-    float const depth = 1.0;
+    float const depth = 1;
     
     Vector3 projectionPlane;
 
     Vector3 cameraCenter;
 
-    const float aspectRatio = 3.0 / 2.0;
+    const float aspectRatio = 96.0 / 64.0;
     const float viewPortHeight = 2;
     float viewPortWidth;
 

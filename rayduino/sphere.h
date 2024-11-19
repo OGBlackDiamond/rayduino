@@ -12,8 +12,8 @@ private:
 
 public:
     Sphere();
-    Sphere(float, float, float, int, int, int, float);
-    Sphere(Vector3&, Color&, float);
+    Sphere(float, float, float, float, float, float, float);
+    Sphere(Vector3, Color, float);
     Sphere(const Sphere&);
 
     HitInfo checkCollision(Ray);
