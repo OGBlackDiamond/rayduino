@@ -55,10 +55,10 @@ void Renderer::castRays() {
             );
 
             for (int k = 0; k < numShapes; k++) {
-                double hit = spheres[k].checkCollision(ray);
+                HitInfo hit = spheres[k].checkCollision(ray);
 
-                if (hit > 0.0) {
-                    Vector3 n(ray.at(hit) - Vector3(0, 0, -1)); n.normalize();
+                if (hit.didHit) {
+                    Vector3 n(ray.at(hit.distance) - Vector3(0, 0, -1)); n.normalize();
                     display->sendColor(Color(n.x() + 1, n.y() + 1, n.z() + 1));
                 } else{
                     display->sendColor(Color(0, 0, 0));

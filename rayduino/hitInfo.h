@@ -5,9 +5,9 @@
 
 struct HitInfo {
     bool didHit = false;
-    float distance;
-    Vector3 hitNormal;
-    Vector3 normal;
+    float distance = -1;
+    Vector3 hitPoint = Vector3();
+    Vector3 normal = Vector3();
 };
 
 #endif
