@@ -10,9 +10,9 @@ void setup() {
   Sphere sphere(1.0, 3.0, -13.0, 1, 0.2, 0.2, 5);
   Sphere ground(1, -100, -20, 0.2, 1, 0.2, 100);
   Sphere sun(
-        Vector3(550, 550, 850),
-        Color(1, 1, 1, 1),
-        250
+        Vector3(45, 45, 45.0),
+        Color(0, 0, 0, 500),
+        65 
   );
   renderer.addSphere(sphere);
   renderer.addSphere(ground);

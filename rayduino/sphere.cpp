@@ -38,7 +38,7 @@ HitInfo Sphere::checkCollision(Ray ray) {
         if (distance > 0) {
             thisHit.didHit = true;
             thisHit.distance = distance;
-            thisHit.hitPoint = ray.getPosition() + rayDir * dis;
+            thisHit.hitPoint = ray.at(dis);
             thisHit.normal = Vector3(thisHit.hitPoint - position); thisHit.normal.normalize();
         }
     }

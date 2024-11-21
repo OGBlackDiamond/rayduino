@@ -1,6 +1,7 @@
 #ifndef RAY_H
 #define RAY_H
 
+#include "color.h"
 #include "vector.h"
 
 class Ray {
@@ -15,17 +16,21 @@ public:
     void setPosition(Vector3&);
     void setDirection(Vector3&);
 
+
     Vector3 getPosition();
     Vector3 getDirection();
 
     Vector3 at(double);
 
     void normalize();
+
+    Color color;
     
 private:
     Vector3 position;
 
     Vector3 direction;
+
 };
 
 #endif 

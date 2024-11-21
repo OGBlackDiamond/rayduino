@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "hitInfo.h"
 
 Renderer::Renderer(int length, int width) {
     // initializes the projection plane to be in the center of the width and height
@@ -48,31 +49,78 @@ void Renderer::castRays() {
             Vector3 pixelCenter = pixel00Loc + (j * pixelDeltaU) + (i * pixelDeltaV);
             Vector3 rayDirection = pixelCenter - cameraCenter;
 
+            uint32_t randomSeed = j * projectionPlane.x() + i;
+
             // initializes a new ray
             Ray ray(
                 cameraCenter,
                 rayDirection
             );
 
-            bool didHitAny = false;
+            Color totalColor;
 
-            for (int k = 0; k < numShapes; k++) {
-                HitInfo hit = spheres[k].checkCollision(ray);
-
-                if (hit.didHit) {
-                    didHitAny = hit.didHit;
-
-                    Vector3 randDir = Util::randomDirection(j * projectionPlane.x() + i);
-                    if (dot(randDir, hit.normal) < 0.0) randDir * Util::sign(dot(randDir, hit.normal));
-
-                    Ray bounceRay(hit.hitPoint, randDir);
-
-                    if (spheres[2].checkCollision(bounceRay).didHit) display->sendColor(spheres[k].getColor());
-                    else didHitAny = false;
-                    break;
-                }
+            for (int k = 0; k < raysPerPixel; k++) {
+                totalColor += traceRay(ray, randomSeed);
             }
-            if (!didHitAny) display->sendColor(Color(0, 0, 0));
+
+            totalColor /= raysPerPixel;
+
+            display->sendColor(totalColor);
         }
     }
+}
+
+Color Renderer::traceRay(Ray& ray, uint32_t& randomSeed) {
+    Color light = Color(0, 0, 0);
+    Color color = Color(1, 1, 1);
+
+    const Color emittedLight = Color(1, 1, 1);
+    
+    for (int i = 0; i <= maxBounceCount; i++) {
+
+        HitInfo hit = calcRayCollision(ray);
+        if (hit.didHit) {
+            
+            Vector3 randDir = Util::randomDirection(
+                hit.normal,
+                randomSeed 
+            );
+
+
+            ray.setPosition(hit.hitPoint);
+            ray.setDirection(randDir);
+
+            ray.color = hit.shapeColor;
+
+            light += color * ray.color.light;
+            color *= ray.color;
+
+            if (ray.color.light != 0) break;
+
+        } else break;
+    }
+    return light;   
+}
+
+HitInfo Renderer::calcRayCollision(Ray ray) {
+    HitInfo info;
+
+    // max float value
+    float closestToRay = 340282346638528859811704183484516925440.0000000000000000;
+
+    for (int i = 0; i < numShapes; i++) {
+        HitInfo hit = spheres[i].checkCollision(ray);
+        if (hit.didHit) {
+            if (hit.distance < closestToRay) {
+                info.didHit = hit.didHit;
+                info.distance = hit.distance;
+                info.hitPoint = hit.hitPoint;
+                info.normal = hit.normal;
+                info.shapeColor = spheres[i].getColor();
+            }
+        }
+
+    }
+
+    return info;
 }

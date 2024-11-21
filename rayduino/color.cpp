@@ -4,6 +4,7 @@ Color::Color() {
     r = 0;
     g = 0;
     b = 0;
+    light = 0;
 }
 
 Color::Color(const Color& rhs) {
@@ -11,7 +12,7 @@ Color::Color(const Color& rhs) {
 }
 
 Color::Color(float r, float g, float b) {
-    deepCopy(r, g, b, 0);
+    deepCopy(r, g, b, 0.0);
 }
 
 Color::Color(float r, float g, float b, float light) {
@@ -23,14 +24,42 @@ Color& Color::operator=(const Color& color) {
     return *this;
 }
 
+Color& Color::operator+=(const Color& color) {
+    r += color.r;
+    g += color.g;
+    b += color.b;
+    return *this;
+}
+
+Color& Color::operator*=(const Color& color) {
+    r *= color.r;
+    g *= color.g;
+    b *= color.b;
+    return *this;
+}
+
+Color& Color::operator*=(const float color) {
+    r *= color;
+    b *= color;
+    g *= color;
+    return *this;
+}
+
+Color& Color::operator/=(const float num) {
+    r /= num;
+    b /= num;
+    g /= num;
+    return *this;
+}
+
 uint16_t Color::asBytes() {
     return (((int)(r*31) << 11) | ((int)(g*63) << 5) | (int)(b*31));
 }
 
 void Color::deepCopy(float r, float g, float b, float light) {
-    this->r = r > 1 ? 1 : r;
-    this->g = g > 1 ? 1 : g;
-    this->b = b > 1 ? 1 : b;
+    this->r = r;
+    this->g = g;
+    this->b = b;
     this->light = light;
 }
 

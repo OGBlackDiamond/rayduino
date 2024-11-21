@@ -1,6 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include "hitInfo.h"
 #include "vector.h"
 #include "sphere.h"
 #include "display.h"
@@ -21,7 +22,10 @@ private:
 
     Sphere* spheres;
 
-    float const depth = 1;
+    const float depth = 1;
+
+    const int maxBounceCount = 50;
+    const int raysPerPixel = 500;
     
     Vector3 projectionPlane;
 
@@ -43,6 +47,10 @@ private:
 
     int numShapes;
     int maxShapes;
+
+    Color traceRay(Ray&, uint32_t&);
+    
+    HitInfo calcRayCollision(Ray);
 
 };
 #endif
