@@ -13,13 +13,13 @@ float Util::randomNormalValue(uint32_t& seed) {
     return rho * cos(theta);
 }
 
-Vector3 Util::randomDirection(Vector3 normal, uint32_t& seed) {
+Vector3 Util::randomDirection(uint32_t& seed) {
     float x = randomNormalValue(seed);
     float y = randomNormalValue(seed);
     float z = randomNormalValue(seed);
     Vector3 direction(x, y, z);
     direction.normalize();
-    return direction * Util::sign(dot(normal, direction));
+    return direction;
 }
 
 int Util::sign(float num) {

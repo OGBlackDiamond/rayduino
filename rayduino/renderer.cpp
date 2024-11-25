@@ -81,10 +81,8 @@ Color Renderer::traceRay(Ray& ray, uint32_t& randomSeed) {
         HitInfo hit = calcRayCollision(ray);
         if (hit.didHit) {
             
-            Vector3 randDir = Util::randomDirection(
-                hit.normal,
-                randomSeed 
-            );
+            Vector3 randDir = hit.normal + Util::randomDirection(randomSeed);
+            randDir.normalize();
 
 
             ray.setPosition(hit.hitPoint);
@@ -94,8 +92,6 @@ Color Renderer::traceRay(Ray& ray, uint32_t& randomSeed) {
 
             light += color * ray.color.light;
             color *= ray.color;
-
-            if (ray.color.light != 0) break;
 
         } else break;
     }

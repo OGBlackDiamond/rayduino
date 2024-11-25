@@ -7,12 +7,12 @@ void setup() {
   Serial.println("code began");
   Renderer renderer(96, 64);
   Serial.println("construction finished");
-  Sphere sphere(1.0, 3.0, -13.0, 1, 0.2, 0.2, 5);
-  Sphere ground(1, -100, -20, 0.2, 1, 0.2, 100);
+  Sphere sphere(1.0, 0, -13.0, 1, 0.2, 0.2, 5);
+  Sphere ground(1, -95, -13, 0.2, 1, 0.2, 100);
   Sphere sun(
         Vector3(45, 45, 45.0),
         Color(0, 0, 0, 500),
-        65 
+        75 
   );
   renderer.addSphere(sphere);
   renderer.addSphere(ground);
