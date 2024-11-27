@@ -1,10 +1,10 @@
 #ifndef SPHERE_H
 #define SPHERE_H 
 
-#include "Arduino.h"
+#include <math.h>
+
 #include "shape.h"
 #include "ray.h"
-#include "util.h"
 
 class Sphere: public Shape {
 private:

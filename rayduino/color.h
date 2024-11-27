@@ -1,7 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "Arduino.h"
+#include <stdint.h>
 
 struct Color {
     float r;

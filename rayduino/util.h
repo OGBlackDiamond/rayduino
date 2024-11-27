@@ -1,7 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "Arduino.h"
+#include <stdint.h>
+
 #include "vector.h"
 
 class Util {

@@ -65,7 +65,7 @@ void Renderer::castRays() {
 
             totalColor /= raysPerPixel;
 
-            display->sendColor(totalColor);
+            //display->sendColor(totalColor);
         }
     }
 }

@@ -29,6 +29,7 @@ Ray& Ray::operator=(const Ray& rhs) {
     position = rhs.position;
     direction = rhs.direction;
     color = rhs.color;
+    return *this;
 }
 
 void Ray::setPosition(Vector3& pos) {
