@@ -19,6 +19,8 @@ Color::Color(float r, float g, float b, float light) {
     deepCopy(r, g, b, light);
 }
 
+Color::~Color() {}
+
 Color& Color::operator=(const Color& color) {
     deepCopy(color.r, color.g, color.b, color.light);
     return *this;

@@ -15,6 +15,8 @@ public:
 
     void setPixel(int, int, Color);
 
+    Color getPixel(int, int);
+
     void renderDisplay();
 
     void sendColor(Color);
@@ -25,8 +27,10 @@ private:
 
     Color** buffer;
 
-    SDL_Surface* winSurface = NULL;
-    SDL_Window* window = NULL;
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+
+    SDL_Event curEvent;
     
     int initializeDisplay();
     void generateBuffer(int, int);

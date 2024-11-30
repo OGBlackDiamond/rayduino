@@ -22,16 +22,16 @@ private:
 
     Sphere* spheres;
 
-    const float depth = 1;
+    const float depth = 2;
 
-    const int maxBounceCount = 50;
-    const int raysPerPixel = 500;
+    const int maxBounceCount = 30;
+    const int raysPerPixel = 1000;
     
     Vector3 projectionPlane;
 
-    Vector3 cameraCenter;
+    Vector3 cameraCenter = Vector3(0, 0, 10);
 
-    const float aspectRatio = 96.0 / 64.0;
+    const float aspectRatio = 1000.0 / 1000.0;
     const float viewPortHeight = 2;
     float viewPortWidth;
 
@@ -48,7 +48,7 @@ private:
     int numShapes;
     int maxShapes;
 
-    Color traceRay(Ray&, uint32_t&);
+    Color traceRay(Ray, uint&);
     
     HitInfo calcRayCollision(Ray);
 

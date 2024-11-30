@@ -32,11 +32,11 @@ Ray& Ray::operator=(const Ray& rhs) {
     return *this;
 }
 
-void Ray::setPosition(Vector3& pos) {
+void Ray::setPosition(Vector3 pos) {
     position = pos;
 }
 
-void Ray::setDirection(Vector3& dir) {
+void Ray::setDirection(Vector3 dir) {
     direction = dir;
 }
 

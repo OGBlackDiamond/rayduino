@@ -33,13 +33,14 @@ HitInfo Sphere::checkCollision(Ray ray) {
 
     HitInfo thisHit;
 
+
     if (dis >= 0) {
-        float distance  = (b - sqrt(dis)) / a;
+        float distance = (b - std::sqrt(dis)) / a;
         if (distance > 0) {
             thisHit.didHit = true;
             thisHit.distance = distance;
-            thisHit.hitPoint = ray.at(dis);
-            thisHit.normal = Vector3(thisHit.hitPoint - position); thisHit.normal.normalize();
+            thisHit.hitPoint = ray.at(distance);
+            thisHit.normal = thisHit.hitPoint - position; thisHit.normal.normalize();
         }
     }
     return thisHit;

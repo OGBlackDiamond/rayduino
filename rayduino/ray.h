@@ -13,8 +13,8 @@ public:
 
     Ray& operator=(const Ray&);
 
-    void setPosition(Vector3&);
-    void setDirection(Vector3&);
+    void setPosition(Vector3);
+    void setDirection(Vector3);
 
 
     Vector3 getPosition();

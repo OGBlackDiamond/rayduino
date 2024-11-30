@@ -12,6 +12,7 @@ struct Color {
     Color(float, float, float);
     Color(float, float, float, float);
     Color(const Color&);
+    ~Color();
     Color& operator=(const Color&);
     Color& operator+=(const Color&);
     Color& operator*=(const Color&);

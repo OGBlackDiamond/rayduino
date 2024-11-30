@@ -1,10 +1,10 @@
 #include "renderer.h"
 #include "hitInfo.h"
+#include "util.h"
 
 Renderer::Renderer(int length, int width) {
     // initializes the projection plane to be in the center of the width and height
     projectionPlane = Vector3(length, width, depth);
-    cameraCenter = Vector3(0, 0, 0);
     numShapes = 0;
     maxShapes = 1;
     spheres = new Sphere[maxShapes];
@@ -49,7 +49,7 @@ void Renderer::castRays() {
             Vector3 pixelCenter = pixel00Loc + (j * pixelDeltaU) + (i * pixelDeltaV);
             Vector3 rayDirection = pixelCenter - cameraCenter;
 
-            uint32_t randomSeed = j * projectionPlane.x() + i;
+            uint randomSeed = (i * projectionPlane.y()) * projectionPlane.x() + (j * projectionPlane.x());
 
             // initializes a new ray
             Ray ray(
@@ -65,25 +65,21 @@ void Renderer::castRays() {
 
             totalColor /= raysPerPixel;
 
-            //display->sendColor(totalColor);
+            display->setPixel(j, i, totalColor);
         }
     }
 }
 
-Color Renderer::traceRay(Ray& ray, uint32_t& randomSeed) {
+Color Renderer::traceRay(Ray ray, uint& randomSeed) {
     Color light = Color(0, 0, 0);
     Color color = Color(1, 1, 1);
 
-    const Color emittedLight = Color(1, 1, 1);
-    
     for (int i = 0; i <= maxBounceCount; i++) {
 
         HitInfo hit = calcRayCollision(ray);
         if (hit.didHit) {
             
-            Vector3 randDir = hit.normal + Util::randomDirection(randomSeed);
-            randDir.normalize();
-
+            Vector3 randDir = unit_vector(hit.normal + Util::randomDirection(randomSeed));
 
             ray.setPosition(hit.hitPoint);
             ray.setDirection(randDir);
@@ -113,6 +109,7 @@ HitInfo Renderer::calcRayCollision(Ray ray) {
                 info.hitPoint = hit.hitPoint;
                 info.normal = hit.normal;
                 info.shapeColor = spheres[i].getColor();
+                closestToRay = hit.distance;
             }
         }
 

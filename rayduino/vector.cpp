@@ -38,9 +38,10 @@ double Vector3::length_squared() const {
 }
 
 void Vector3::normalize() {
-    if (length() == 0) return;
-    e[0] /= length();
-    e[1] /= length();
-    e[2] /= length();
+    double len = length();
+    if (len == 0) return;
+    e[0] /= len;
+    e[1] /= len;
+    e[2] /= len;
 }
 

@@ -7,9 +7,9 @@
 
 class Util {
 public:
-    static float randomValue(uint32_t&);
-    static float randomNormalValue(uint32_t&);
-    static Vector3 randomDirection(uint32_t&);
+    static float randomValue(uint&);
+    static float randomNormalValue(uint&);
+    static Vector3 randomDirection(uint&);
 
     static int sign(float);
 };
