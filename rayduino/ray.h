@@ -24,8 +24,6 @@ public:
 
     void normalize();
 
-    Color color;
-    
 private:
     Vector3 position;
 

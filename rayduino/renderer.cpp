@@ -79,17 +79,23 @@ Color Renderer::traceRay(Ray ray, uint& randomSeed) {
         HitInfo hit = calcRayCollision(ray);
         if (hit.didHit) {
             
-            //Vector3 randDir = unit_vector(hit.normal + Util::randomDirection(randomSeed));
-            Vector3 randDir = ray.getDirection() - 2 * dot(ray.getDirection(), hit.normal) * hit.normal;
+
+            Vector3 randDir = unit_vector(hit.normal + Util::randomDirection(randomSeed));
+            
+            Vector3 specularReflection = ray.getDirection() - 2 * dot(ray.getDirection(), hit.normal) * hit.normal;
+
+            Surface surface = hit.shapeSurface;
+
+            Vector3 rayDir = lerp(randDir, specularReflection, surface.smoothness);
+
 
 
             ray.setPosition(hit.hitPoint);
             ray.setDirection(randDir);
 
-            ray.color = hit.shapeColor;
 
-            light += color * ray.color.light;
-            color *= ray.color;
+            light += color * (surface.emissionColor * surface.emissionStrength);
+            color *= surface.surfaceColor;
 
         } else break;
     }
@@ -110,7 +116,7 @@ HitInfo Renderer::calcRayCollision(Ray ray) {
                 info.distance = hit.distance;
                 info.hitPoint = hit.hitPoint;
                 info.normal = hit.normal;
-                info.shapeColor = spheres[i].getColor();
+                info.shapeSurface = spheres[i].getSurface();
                 closestToRay = hit.distance;
             }
         }

@@ -1,7 +1,7 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
-#include "color.h"
+#include "surface.h"
 #include "vector.h"
 #include "ray.h"
 #include "hitInfo.h"
@@ -10,14 +10,13 @@
 class Shape {
 public:
     Shape();
-    Shape(float, float, float, float, float, float);
-    Shape(Vector3&, Color&);
+    Shape(Vector3&, Surface&);
     Shape(const Shape&);
 
-    void setColor(Color);
+    void setSurface(Surface);
     void setPosition(Vector3);
 
-    Color& getColor();
+    Surface& getSurface();
     Vector3& getPosition();
     
     // each shape should override this
@@ -26,9 +25,7 @@ public:
 protected:
 
     Vector3 position;
-    Color color;
-
-    void deepCopy(float, float, float, float, float, float);
+    Surface surface;
 
 };
 
