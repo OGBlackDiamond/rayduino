@@ -25,7 +25,7 @@ private:
     const float depth = 2;
 
     const int maxBounceCount = 30;
-    const int raysPerPixel = 1000;
+    const int raysPerPixel = 10;
     
     Vector3 projectionPlane;
 
