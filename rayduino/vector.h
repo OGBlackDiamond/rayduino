@@ -75,6 +75,7 @@ inline Vector3 unit_vector(const Vector3& v) {
     return v / v.length();
 }
 
+// linear interpolation
 inline Vector3 lerp(const Vector3& v0, const Vector3& v1, double weight) {
     return v0 + (v1 - v0) * weight;
 }

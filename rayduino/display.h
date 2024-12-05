@@ -21,6 +21,8 @@ public:
 
     void sendColor(Color);
 
+    int initializeDisplay();
+
 private:
     int resX;
     int resY;
@@ -32,7 +34,6 @@ private:
 
     SDL_Event curEvent;
     
-    int initializeDisplay();
     void generateBuffer(int, int);
 };
 

@@ -4,7 +4,6 @@
 Display::Display() {
     resX = 96;
     resY = 64;
-    initializeDisplay();
     generateBuffer(96, 64);
 }
 
@@ -12,7 +11,6 @@ Display::Display(int x, int y) {
     resX = x;
     resY = y;
     generateBuffer(x, y);
-    initializeDisplay();
 }
 
 Display::~Display() {
