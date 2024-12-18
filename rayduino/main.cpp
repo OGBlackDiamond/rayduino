@@ -41,7 +41,7 @@ int main() {
         1
     );
     Sphere sphere5(
-        Vector3(0, 0, -0.75),
+        Vector3(0, 0, -1.00),
         Surface(
             Color(1, 1, 1),
             Color(),
