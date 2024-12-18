@@ -27,8 +27,8 @@ private:
 
     const float depth = 2;
 
-    const int maxBounceCount = 30;
-    const int raysPerPixel = 10;
+    const int maxBounceCount = 1;
+    const int raysPerPixel = 1;
     
     Vector3 projectionPlane;
 
@@ -54,7 +54,7 @@ private:
     int numTris;
     int maxTris;
 
-    Color traceRay(Ray, uint&);
+    Color traceRay(Ray, uint32_t&);
     
     HitInfo calcRayCollision(Ray);
 

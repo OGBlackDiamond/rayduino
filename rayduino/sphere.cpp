@@ -30,7 +30,7 @@ HitInfo Sphere::checkCollision(Ray ray) {
 
 
     if (dis >= 0) {
-        float distance = (b - std::sqrt(dis)) / a;
+        float distance = (b - sqrt(dis)) / a;
         if (distance > 0) {
             thisHit.didHit = true;
             thisHit.distance = distance;

@@ -2,8 +2,8 @@
 #include "sphere.h"
 #include "surface.h"
 
-int main() {
-    Renderer renderer(500, 500);
+void setup() {
+    Renderer renderer(96, 64);
 
     Sphere sphere1(
         Vector3(0.5, 0, -2.0),
@@ -166,9 +166,6 @@ int main() {
     //renderer.addSphere(tst3);
 
     renderer.castRays();
-    std::cout << "Finished" << std::endl;
-    renderer.display->initializeDisplay();
-    renderer.display->renderDisplay();
-
-    return 0;
 }
+
+void loop() {}

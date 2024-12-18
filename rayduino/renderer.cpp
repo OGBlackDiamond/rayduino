@@ -67,7 +67,7 @@ void Renderer::castRays() {
             Vector3 pixelCenter = pixel00Loc + (j * pixelDeltaU) + (i * pixelDeltaV);
             Vector3 rayDirection = pixelCenter - cameraCenter;
 
-            uint randomSeed = (i * projectionPlane.y()) * projectionPlane.x() + (j * projectionPlane.x());
+            uint32_t randomSeed = (i * projectionPlane.y()) * projectionPlane.x() + (j * projectionPlane.x());
 
             // initializes a new ray
             Ray ray(
@@ -83,12 +83,12 @@ void Renderer::castRays() {
 
             totalColor /= raysPerPixel;
 
-            display->setPixel(j, i, totalColor);
+            display->sendColor(totalColor);
         }
     }
 }
 
-Color Renderer::traceRay(Ray ray, uint& randomSeed) {
+Color Renderer::traceRay(Ray ray, uint32_t& randomSeed) {
     Color light = Color(0, 0, 0);
     Color color = Color(1, 1, 1);
 

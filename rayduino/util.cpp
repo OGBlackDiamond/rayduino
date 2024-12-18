@@ -1,19 +1,19 @@
 #include "util.h"
 
-float Util::randomValue(uint& seed) {
+float Util::randomValue(uint32_t& seed) {
     seed = seed * 747796405 + 2891336453;
-    uint result = ((seed >> ((seed >> 28) + 4)) ^ seed) * 277803737;
+    uint32_t result = ((seed >> ((seed >> 28) + 4)) ^ seed) * 277803737;
     result = (result >> 22) ^ result;
     return result / 4294967295.0;
 }
 
-float Util::randomNormalValue(uint& seed) {
+float Util::randomNormalValue(uint32_t& seed) {
     float theta = 2 * 3.1415926 * randomValue(seed);
     float rho = sqrt(-2 * log10(randomValue(seed)));
     return rho * cos(theta);
 }
 
-Vector3 Util::randomDirection(uint& seed) {
+Vector3 Util::randomDirection(uint32_t& seed) {
     float x = randomNormalValue(seed);
     float y = randomNormalValue(seed);
     float z = randomNormalValue(seed);

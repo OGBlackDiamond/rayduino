@@ -3,8 +3,6 @@
 
 #include "color.h"
 
-#include <iostream>
-
 class Surface {
 public:
     Color surfaceColor;
