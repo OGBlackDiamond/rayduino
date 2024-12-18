@@ -1,135 +1,70 @@
 #include "display.h"
+#include <SDL2/SDL_render.h>
 
 Display::Display() {
     resX = 96;
     resY = 64;
-    initializeDisplay();
     generateBuffer(96, 64);
 }
 
 Display::Display(int x, int y) {
     resX = x;
     resY = y;
-
-    initializeDisplay();
+    generateBuffer(x, y);
 }
 
 Display::~Display() {
-    for (int i = resY; i > 0; --i) {
+    for (int i = resY; i >= 0; --i) {
         delete[] buffer[i];
     }
     delete[] buffer;
 }
 
-void Display::initializeDisplay() {
-    pinMode(clock, OUTPUT);
-    pinMode(data, OUTPUT);
-    pinMode(reset, OUTPUT);
-    pinMode(command, OUTPUT);
-    pinMode(cs, OUTPUT);
-
-
-    digitalWrite(reset, LOW);
-    delay(50);
-    digitalWrite(reset, HIGH);
-    delay(100);
-
-    sendCommand(0xAE); // Display off
-
-    sendCommand(0xA0); // Set remap
-
-    sendCommand(0x72); // RGB Color
-
-    sendCommand(0xA1); // Start line
-    sendCommand(0x00);
-
-    sendCommand(0xA2); // Display offset
-    sendCommand(0x00);
-
-    sendCommand(0xA4); // Normal display
-    sendCommand(0xA8); // Set multiplex
-    sendCommand(0x3F);
-
-    sendCommand(0xAD); // Set master
-    sendCommand(0x8E);
-
-    sendCommand(0xB0); // Power mode
-    sendCommand(0x0B);
-
-    sendCommand(0xB1); // Precharge
-    sendCommand(0x31);
-
-    sendCommand(0xB3); // Clock div
-    sendCommand(0xF0);
-
-    sendCommand(0x8A); // Precharge A
-    sendCommand(0x64);
-
-    sendCommand(0x8B); // Precharge B
-    sendCommand(0x78);
-
-    sendCommand(0x8C); // Precharge C
-    sendCommand(0x64);
-
-    sendCommand(0xBB); // Precharge Level
-    sendCommand(0x3A);
-
-    sendCommand(0xBE); // VCOMH
-    sendCommand(0x3E);
-
-    // sendCommand(0x87); //Mastercurrent
-    // sendCommand(0x06);
-
-    sendCommand(0x81); // Contrast A
-    sendCommand(0x91);
-
-    sendCommand(0x82); // Contrast B
-    sendCommand(0x50);
-
-    sendCommand(0x83); // Contrast C
-    sendCommand(0x7D);
-
-    sendCommand(0xAF); // Display on
-}
 
 void Display::generateBuffer(int x, int y) {
-  
-}
-
-void Display::sendData(uint8_t din) {
-    digitalWrite(command, HIGH);
-    digitalWrite(cs, LOW);
-    digitalWrite(clock, LOW);
-
-    shiftOut(data, clock, MSBFIRST, din);
-
-    digitalWrite(cs, HIGH);
-}
-
-void Display::sendCommand(uint8_t command) {
-    digitalWrite(command, LOW);
-    digitalWrite(cs, LOW);
-    digitalWrite(clock, LOW);
-    shiftOut(data, clock, MSBFIRST, command);
-    digitalWrite(cs, HIGH);
-}
-
-void Display::sendColor(Color color) {
-    uint16_t pixelColor = color.asBytes();
-    sendData(pixelColor >> 8);
-    sendData((uint8_t) pixelColor);
+    buffer = new Color*[y];
+    for (int i = 0; i < y; i++) {
+        buffer[i] = new Color[x];
+    }
 }
 
 void Display::setPixel(int x, int y, Color color) {
     buffer[y][x] = color;
 }
 
+Color Display::getPixel(int x, int y) {return buffer[y][x];}
+
 void Display::renderDisplay() {
-    for (int i = 0; i < resY; i++) {
-        for (int j = 0; j < resX; j++) {
-            uint16_t pixelColor = buffer[i][j].asBytes();
-            sendData((uint8_t) pixelColor);
-            sendData((uint8_t) pixelColor << 8);
+    bool rendering = true;
+    while (rendering) {
+
+        while (SDL_PollEvent(&curEvent)) {
+            if (curEvent.type == SDL_QUIT) {
+                rendering = false;
+            }
         }
+        for (int i = 0; i < resY; i++) {
+            for (int j = 0; j < resX; j++) {
+                Color pixelColor = buffer[i][j];
+                SDL_SetRenderDrawColor(renderer,
+                                       pixelColor.r * 255.0,
+                                       pixelColor.g * 255.0,
+                                       pixelColor.b * 255.0,
+                                       255);
+                SDL_RenderDrawPoint(renderer, j, i);
+            }
+        }
+        SDL_RenderPresent(renderer);
     }
+}
+
+int Display::initializeDisplay() {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        std::cout << "Error Initializing SDL" << std::endl;
+        return 1;
+    }
+
+    SDL_CreateWindowAndRenderer(resX, resY, 0, &window, &renderer);
+
+    return 0;
 }

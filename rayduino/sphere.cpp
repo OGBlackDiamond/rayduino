@@ -4,13 +4,8 @@ Sphere::Sphere(): Shape(){
     radius = 5;
 }
 
-Sphere::Sphere(float x, float y, float z, float r, float g, float b, float rad)
-    : Shape(x, y, z, r, g, b) {
-    radius = rad;
-}
-
-Sphere::Sphere(Vector3 position, Color color, float rad)
-    : Shape(position, color) {
+Sphere::Sphere(Vector3 position, Surface surface, float rad)
+    : Shape(position, surface) {
     radius = rad;
 }
 
@@ -33,13 +28,14 @@ HitInfo Sphere::checkCollision(Ray ray) {
 
     HitInfo thisHit;
 
+
     if (dis >= 0) {
-        float distance  = (b - sqrt(dis)) / a;
+        float distance = (b - std::sqrt(dis)) / a;
         if (distance > 0) {
             thisHit.didHit = true;
             thisHit.distance = distance;
-            thisHit.hitPoint = ray.at(dis);
-            thisHit.normal = Vector3(thisHit.hitPoint - position); thisHit.normal.normalize();
+            thisHit.hitPoint = ray.at(distance);
+            thisHit.normal = thisHit.hitPoint - position; thisHit.normal.normalize();
         }
     }
     return thisHit;

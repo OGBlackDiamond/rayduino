@@ -1,7 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include "Arduino.h"
+#include <math.h>
 
 struct Vector3{
 public:
@@ -39,6 +39,10 @@ inline Vector3 operator-(const Vector3& u, const Vector3& v) {
     return Vector3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
 }
 
+inline Vector3 operator-(const Vector3& u, double t) {
+    return u - Vector3(t, t, t);
+}
+
 inline Vector3 operator*(const Vector3& u, const Vector3& v) {
     return Vector3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
 }
@@ -69,6 +73,11 @@ inline Vector3 cross(const Vector3& u, const Vector3& v) {
 
 inline Vector3 unit_vector(const Vector3& v) {
     return v / v.length();
+}
+
+// linear interpolation
+inline Vector3 lerp(const Vector3& v0, const Vector3& v1, double weight) {
+    return v0 + (v1 - v0) * weight;
 }
 
 #endif

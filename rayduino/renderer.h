@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include "hitInfo.h"
+#include "triangle.h"
 #include "vector.h"
 #include "sphere.h"
 #include "display.h"
@@ -16,22 +17,24 @@ public:
     Display* display;
 
     void addSphere(Sphere);
+    void addTriangle(Triangle);
 
     void castRays();
 private:
 
     Sphere* spheres;
+    Triangle* triangles;
 
-    const float depth = 1;
+    const float depth = 2;
 
-    const int maxBounceCount = 50;
-    const int raysPerPixel = 500;
+    const int maxBounceCount = 30;
+    const int raysPerPixel = 10;
     
     Vector3 projectionPlane;
 
-    Vector3 cameraCenter;
+    Vector3 cameraCenter = Vector3(0, 0, 10);
 
-    const float aspectRatio = 96.0 / 64.0;
+    const float aspectRatio = 3.0 / 2;
     const float viewPortHeight = 2;
     float viewPortWidth;
 
@@ -45,10 +48,13 @@ private:
 
     Vector3 pixel00Loc;
 
-    int numShapes;
-    int maxShapes;
+    int numSpheres;
+    int maxSpheres;
 
-    Color traceRay(Ray&, uint32_t&);
+    int numTris;
+    int maxTris;
+
+    Color traceRay(Ray, uint&);
     
     HitInfo calcRayCollision(Ray);
 

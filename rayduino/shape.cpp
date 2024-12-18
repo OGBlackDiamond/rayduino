@@ -2,27 +2,22 @@
 
 Shape::Shape() {
     position = Vector3();
-    color = Color();
+    surface = Surface();
 }
 
-Shape::Shape(float x, float y, float z, float r, float g, float b) {
-    position = Vector3(x, y, z);
-    color = Color(r, g, b, 0);
-}
-
-Shape::Shape(Vector3& position, Color& color) {
+Shape::Shape(Vector3& position, Surface& surface) {
     this->position = position;
-    this->color = color;
+    this->surface = surface;
 }
 
 Shape::Shape(const Shape& rhs) {
-    color = rhs.color;
+    surface = rhs.surface;
     position = rhs.position;
 }
 
-void Shape::setColor(Color color) {this->color = color;}
+void Shape::setSurface(Surface surface) {this->surface = surface;}
 void Shape::setPosition(Vector3 position) {this->position = position;}
 
-Color& Shape::getColor() {return color;}
+Surface& Shape::getSurface() {return surface;}
 Vector3& Shape::getPosition() {return position;}
 

@@ -1,7 +1,10 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "Arduino.h"
+#include <stdint.h>
+#include <iostream>
+
+#include <SDL2/SDL.h>
 #include "color.h"
 
 class Display {
@@ -12,26 +15,25 @@ public:
 
     void setPixel(int, int, Color);
 
+    Color getPixel(int, int);
+
     void renderDisplay();
 
     void sendColor(Color);
+
+    int initializeDisplay();
 
 private:
     int resX;
     int resY;
 
-    const uint8_t clock = 13;
-    const uint8_t data = 11;
-    const uint8_t reset = 9;
-    const uint8_t command = 8;
-    const uint8_t cs = 10;
-
     Color** buffer;
-    
-    void sendData(uint8_t);
-    void sendCommand(uint8_t);
 
-    void initializeDisplay();
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+
+    SDL_Event curEvent;
+    
     void generateBuffer(int, int);
 };
 

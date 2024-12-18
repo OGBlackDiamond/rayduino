@@ -1,13 +1,16 @@
 #include "renderer.h"
 #include "hitInfo.h"
+#include "util.h"
 
 Renderer::Renderer(int length, int width) {
     // initializes the projection plane to be in the center of the width and height
     projectionPlane = Vector3(length, width, depth);
-    cameraCenter = Vector3(0, 0, 0);
-    numShapes = 0;
-    maxShapes = 1;
-    spheres = new Sphere[maxShapes];
+    numSpheres = 0;
+    numTris = 0;
+    maxSpheres= 1;
+    maxTris = 1;
+    spheres = new Sphere[maxSpheres];
+    triangles = new Triangle[maxTris];
 
     viewPortWidth = viewPortHeight  * (float(width) / length);
     viewPortU = Vector3(viewPortWidth, 0, 0);
@@ -25,21 +28,36 @@ Renderer::Renderer(int length, int width) {
 
 Renderer::~Renderer() {
     delete[] spheres;
+    delete[] triangles;
     delete display;
 }
 
 void Renderer::addSphere(Sphere shape) {
-    if (numShapes == maxShapes) {
-        maxShapes *= 2;
-        Sphere* tmp = new Sphere[maxShapes];
-        for (int i = 0; i < numShapes; i++) {
+    if (numSpheres == maxSpheres) {
+        maxSpheres *= 2;
+        Sphere* tmp = new Sphere[maxSpheres];
+        for (int i = 0; i < numSpheres; i++) {
             tmp[i] = spheres[i];
         }
         delete[] spheres;
         spheres = tmp;
     }
-    spheres[numShapes] = Sphere(shape);
-    numShapes++;
+    spheres[numSpheres] = Sphere(shape);
+    numSpheres++;
+}
+
+void Renderer::addTriangle(Triangle tri) {
+    if (numTris == maxTris) {
+        maxTris *= 2;
+        Triangle* tmp = new Triangle[maxTris];
+        for (int i = 0; i < numTris; i++) {
+            tmp[i] = triangles[i];
+        }
+        delete[] triangles;
+        triangles = tmp;
+    }
+    triangles[numTris] = Triangle(tri);
+    numTris++;
 }
 
 void Renderer::castRays() {
@@ -49,7 +67,7 @@ void Renderer::castRays() {
             Vector3 pixelCenter = pixel00Loc + (j * pixelDeltaU) + (i * pixelDeltaV);
             Vector3 rayDirection = pixelCenter - cameraCenter;
 
-            uint32_t randomSeed = j * projectionPlane.x() + i;
+            uint randomSeed = (i * projectionPlane.y()) * projectionPlane.x() + (j * projectionPlane.x());
 
             // initializes a new ray
             Ray ray(
@@ -65,33 +83,35 @@ void Renderer::castRays() {
 
             totalColor /= raysPerPixel;
 
-            display->sendColor(totalColor);
+            display->setPixel(j, i, totalColor);
         }
     }
 }
 
-Color Renderer::traceRay(Ray& ray, uint32_t& randomSeed) {
+Color Renderer::traceRay(Ray ray, uint& randomSeed) {
     Color light = Color(0, 0, 0);
     Color color = Color(1, 1, 1);
 
-    const Color emittedLight = Color(1, 1, 1);
-    
     for (int i = 0; i <= maxBounceCount; i++) {
 
         HitInfo hit = calcRayCollision(ray);
         if (hit.didHit) {
+
+            Vector3 randDir = unit_vector(hit.normal + Util::randomDirection(randomSeed));
             
-            Vector3 randDir = hit.normal + Util::randomDirection(randomSeed);
-            randDir.normalize();
+            Vector3 specularReflection = ray.getDirection() - 2 * dot(ray.getDirection(), hit.normal) * hit.normal;
+
+            Surface surface = hit.shapeSurface;
+
+            Vector3 rayDir = lerp(randDir, specularReflection, surface.smoothness);
 
 
             ray.setPosition(hit.hitPoint);
-            ray.setDirection(randDir);
+            ray.setDirection(rayDir);
 
-            ray.color = hit.shapeColor;
 
-            light += color * ray.color.light;
-            color *= ray.color;
+            light += color * (surface.emissionColor * surface.emissionStrength);
+            color *= surface.surfaceColor;
 
         } else break;
     }
@@ -104,15 +124,31 @@ HitInfo Renderer::calcRayCollision(Ray ray) {
     // max float value
     float closestToRay = 340282346638528859811704183484516925440.0000000000000000;
 
-    for (int i = 0; i < numShapes; i++) {
+    for (int i = 0; i < numSpheres; i++) {
         HitInfo hit = spheres[i].checkCollision(ray);
+        if (hit.didHit) {
+            if (hit.distance < closestToRay && hit.distance > 0) {
+                info.didHit = hit.didHit;
+                info.distance = hit.distance;
+                info.hitPoint = hit.hitPoint;
+                info.normal = hit.normal;
+                info.shapeSurface = spheres[i].getSurface();
+                closestToRay = hit.distance;
+            }
+        }
+
+    }
+
+    for (int i = 0; i < numTris; i++) {
+        HitInfo hit = triangles[i].checkCollision(ray);
         if (hit.didHit) {
             if (hit.distance < closestToRay) {
                 info.didHit = hit.didHit;
                 info.distance = hit.distance;
                 info.hitPoint = hit.hitPoint;
                 info.normal = hit.normal;
-                info.shapeColor = spheres[i].getColor();
+                info.shapeSurface = triangles[i].getSurface();
+                closestToRay = hit.distance;
             }
         }
 
