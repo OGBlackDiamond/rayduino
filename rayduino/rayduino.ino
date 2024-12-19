@@ -6,7 +6,7 @@ void setup() {
     Renderer renderer(96, 64);
 
     Sphere sphere1(
-        Vector3(0.5, 0, -2.0),
+        Vector3(0.5 + 0.5, 0, -2.0),
         Surface(
             Color(1, 0.2, 0.2),
             Color(0, 0, 0),
@@ -16,7 +16,7 @@ void setup() {
         0.5
     );
     Sphere sphere2(
-        Vector3(-0.5, 0, -2.0),
+        Vector3(-0.5 + 0.5, 0, -2.0),
         Surface(
             Color(0.2, 1, 0.2),
             Color(0, 0, 0),
@@ -26,12 +26,12 @@ void setup() {
         0.5
     );
     Sphere sphere3(
-        Vector3(-1.5, 0.5, -1.0),
+        Vector3(-1.5 + 0.5, 0.5, -1.0),
         Surface(0.2, 1, 0.2),
         1
     );
     Sphere sphere4(
-        Vector3(1.5, 0.5, -1.0),
+        Vector3(1.5 + 0.5, 0.5, -1.0),
         Surface(
             Color(1, 1, 1),
             Color(0, 0, 0),
@@ -41,7 +41,7 @@ void setup() {
         1
     );
     Sphere sphere5(
-        Vector3(0, 0, -0.75),
+        Vector3(0 + 0.5, 0, -1.00),
         Surface(
             Color(1, 1, 1),
             Color(),
@@ -51,7 +51,7 @@ void setup() {
         .25
     );
     Sphere sphere6(
-        Vector3(0, 0, -1.50),
+        Vector3(0 + 0.5, 0, -1.50),
         Surface(
             Color(0.2, 0.8, 0.8),
             Color(),
@@ -61,7 +61,7 @@ void setup() {
         0.125
     );
     Sphere ground(
-        Vector3(0, -100.5, 1.0),
+        Vector3(0 + 0.5, -100.5, 1.0),
         Surface(1.0, 1, 1.0),
         100
     );
@@ -126,9 +126,9 @@ void setup() {
             2,
             0
         ),
-        Vector3(2, 3, -2),
-        Vector3(-2, 3, -0),
-        Vector3(-2, 3, -2)
+        Vector3(2 + 0.5, 3, -2),
+        Vector3(-2 + 0.5, 3, -0),
+        Vector3(-2 + 0.5, 3, -2)
     );
 
     Triangle tri2 = Triangle(
@@ -139,9 +139,9 @@ void setup() {
             2,
             0
         ),
-        Vector3(2, 3, -2),
-        Vector3(2, 3, 0),
-        Vector3(-2, 3, -0)
+        Vector3(2 + 0.5, 3, -2),
+        Vector3(2 + 0.5, 3, 0),
+        Vector3(-2 + 0.5, 3, -0)
     );
 
     Triangle tri3 = Triangle(

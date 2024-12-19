@@ -27,8 +27,8 @@ private:
 
     const float depth = 2;
 
-    const int maxBounceCount = 1;
-    const int raysPerPixel = 1;
+    const int maxBounceCount = 130;
+    const int raysPerPixel = 1500;
     
     Vector3 projectionPlane;
 
