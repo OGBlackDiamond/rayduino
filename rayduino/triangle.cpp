@@ -27,6 +27,9 @@ Triangle::Triangle(const Triangle& tri) : Shape(tri){
 }
 
 HitInfo Triangle::checkCollision(Ray ray) {
+
+    ray.normalize();
+
     Vector3 E1 = v2 - v1;
     Vector3 E2 = v3 - v1;
 
